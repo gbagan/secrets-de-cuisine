@@ -1,10 +1,10 @@
-import { createMemo, createSignal, For, Index, Signal, type Component } from 'solid-js';
+import { createMemo, createSignal, Signal, type Component } from 'solid-js';
 
 const cipherTitle = "Dgpgzzg mg pdgigc";
 const cipherText =
   "Agzzdg zdtfc pgwzc kdvaagc mg uvdfwg mvwc rw cvsvmfgd gz utdagd rw irfzc. Votrzgd zdtfc tgruc gwzfgdc, zdtfc prfssgdgc v ctrig mg crpdg gz pfwnrvwzg kdvaagc mg lgrddg utwmr. Agsvwkgd mgsfpvzgagwz vxgp rw utrgz gw votrzvwz vr urd gz v agcrdg ctfyvwzg pgwzfsfzdgc mg svfz. Sv ivzg vfwcf tlzgwrg mtfz vxtfd rwg ptwcfczvwpg m’rw sfnrfmg sgkgdgagwz givfc. Uvfdg pevruugd rwg itgsg vxgp rw igr m’erfsg. Xgdcgd rwg strpeg mg ivzg. Vzzgwmdg nrg sv pdgig ctfz prfzg m’rw ptzg vxvwz mg sv dgztrdwgd. Sv svfccgd prfdg crd sg mgryfgag ptzg. Dgptaagwpgd orcnr’v girfcgagwz mg sv ivzg. Ltw viigzfz !";
 
-const frequency_french: [string, string][] = [
+const frenchFrequency: [string, string][] = [
   ["E", "17,38 %"],
   ["A", "8,2 %"],
   ["S", "7,93 %"],
@@ -33,7 +33,7 @@ const frequency_french: [string, string][] = [
   ["W", "0,04 %"],
 ];
 
-const frequency_ciphertext: [string, string][] = [
+const cipherFrequency: [string, string][] = [
   ["G", "19,67 %"],
   ["Z", "8,61 %"],
   ["V", "7,99 %"],
@@ -207,14 +207,12 @@ const App: Component = () => {
                 <th>Lettre</th>
                 <th>Fréquence</th>
               </tr>
-              <For each={frequency_ciphertext}>
-                {([letter, freq]) => (
-                  <tr>
-                    <td classList={{decrypted_letter: !!substitution()[letter]}}>{letter}</td>
-                    <td classList={{decrypted_letter: !!substitution()[letter]}}>{freq}</td>
-                  </tr>
-                )}
-              </For>
+              {cipherFrequency.map(([letter, freq]) => (
+                <tr>
+                  <td classList={{decrypted_letter: !!substitution()[letter]}}>{letter}</td>
+                  <td classList={{decrypted_letter: !!substitution()[letter]}}>{freq}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
@@ -226,14 +224,12 @@ const App: Component = () => {
                 <th>Lettre</th>
                 <th>Fréquence</th>
               </tr>
-              <For each={frequency_french}>
-                {([letter, freq]) => (
-                  <tr>
-                    <td classList={{decrypted_letter: substitutionValues().has(letter)}}>{letter}</td>
-                    <td classList={{decrypted_letter: substitutionValues().has(letter)}}>{freq}</td>
-                  </tr>
-                )}
-              </For>
+              {frenchFrequency.map(([letter, freq]) => (
+                <tr>
+                  <td classList={{decrypted_letter: substitutionValues().has(letter)}}>{letter}</td>
+                  <td classList={{decrypted_letter: substitutionValues().has(letter)}}>{freq}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
         </div>
