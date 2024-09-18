@@ -168,7 +168,7 @@ const App: Component = () => {
       <div id="replace_what">
         <div id="replace_what_texts">
           <div class="replace_what_item">
-            <label for="replace_from">Lettre à remplacer :</label>
+            <label>Lettre à remplacer :</label>
             <input
               type="text"
               maxlength="1"
@@ -178,7 +178,7 @@ const App: Component = () => {
             />
           </div>
           <div class="replace_what_item">
-            <label for="replace_to">Remplacer par :</label>
+            <label>Remplacer par :</label>
             <input
               type="text"
               maxlength="1"
