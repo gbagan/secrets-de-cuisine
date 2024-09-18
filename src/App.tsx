@@ -62,10 +62,6 @@ const frequency_ciphertext: [string, string][] = [
   ["Q", "0 %"],
 ];
 
-function zip<A, B>(a: A[], b: B[]) {
-  return a.map((k, i) => [k, b[i]]);
-}
-
 function isAlphaChar(ch: string) {
   return ch.length === 1 && /[A-Za-z]/.test(ch);
 }
@@ -78,13 +74,16 @@ function valuesSet(obj: {[key: string]: string}): Set<string> {
   return res;
 }
 
+function decryptLetter(letter: string, substitution: {[key: string]: string}) {
+  return substitution[letter] ||
+          substitution[letter.toUpperCase()]?.toLowerCase() ||
+          (isAlphaChar(letter) ? "-" : letter);
+}
+
 function decryptText(cipher: string, substitution: {[key: string]: string}) {
   let decrypted = "";
   for (let i = 0; i < cipher.length; i++) {
-    decrypted +=
-      substitution[cipher[i]] ||
-      substitution[cipher[i].toUpperCase()]?.toLowerCase() ||
-      (isAlphaChar(cipher[i]) ? "-" : cipher[i]);
+    decrypted += decryptLetter(cipher[i], substitution);
   }
   return decrypted;
 }
@@ -96,10 +95,7 @@ const App: Component = () => {
   const [replaceTo, setReplaceTo] = createSignal("");
   
   // derived
-  const decryptedText = () => decryptText(cipherText, substitution());
   const decryptedTitle = () => decryptText(cipherTitle, substitution());
-  const letterPairs = () => zip(cipherText.split(" "), decryptedText().split(" "))
-                            .map(([wordC, wordD]) => zip(Array.from(wordC), Array.from(wordD)));
   const substitutionValues = createMemo(() => valuesSet(substitution()));
 
   // callbacks
@@ -157,21 +153,17 @@ const App: Component = () => {
         <h3 class="decryptedtitle">{decryptedTitle()}</h3>
       </div>
       <div id="texts">
-        <Index each={letterPairs()}>
-          {words => (
-            <div class="word">
-              <Index each={words()}>
-                {pair => (
-                  <div class="letter">
-                    <div class="texts_letter_cipher">{pair()[0]}</div>
-                    <div class="texts_letter_decrypted">{pair()[1]}</div>
-                  </div>
-                )}
-              </Index>
-              &nbsp;&nbsp;
-            </div>
-          )}
-        </Index>
+        {cipherText.split(" ").map(word => (
+          <div class="word">
+            {Array.from(word).map(letter => (
+              <div class="letter">
+                <div class="texts_letter_cipher">{letter}</div>
+                <div class="texts_letter_decrypted">{decryptLetter(letter, substitution())}</div>
+              </div>
+            ))}
+            &nbsp;&nbsp;
+          </div>
+        ))}
       </div>
       <div id="replace_what">
         <div id="replace_what_texts">
@@ -248,8 +240,7 @@ const App: Component = () => {
       </div>
     </div>
   );
-  
-  
+
   return (
     <div id="flex">
       <div id="header">
