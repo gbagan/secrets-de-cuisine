@@ -1,0 +1,14 @@
+:root {
+  --background-grey: #d8d8d8;
+  --text-grey: #3b3b3b;
+  --light-brown: #a57e63;
+  --nice-orange: #e58d4f;
+  --beige-ish: #d6c8bf;
+  --nina: #d8aaaa;
+}
+
+html {
+  padding: 0.5cm;
+  background: var(--background-grey);
+  color: var(--text-grey);
+}
