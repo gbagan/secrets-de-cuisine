@@ -77,10 +77,10 @@
   }
 
   let substitution: Record<string, string> = $state({});
-  let replaceFrom: string = $state("");
-  let replaceTo: string = $state("");
-  let decryptedTitle: string = $derived(decryptText(cipherTitle, substitution));
-  let substitutionValues: Set<string> = $derived(new Set(Object.values(substitution)));
+  let replaceFrom = $state("");
+  let replaceTo = $state("");
+  let decryptedTitle = $derived(decryptText(cipherTitle, substitution));
+  let substitutionValues = $derived(new Set(Object.values(substitution)));
 
   const reset = () => {
     substitution = {};
